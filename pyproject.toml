@@ -1,0 +1,33 @@
+[project]
+name = "marketsentiment"
+version = "0.1.0"
+description = "A market sentiment analysis tool using financial news scraping and NLP"
+authors = [{ name = "Venkatesh Munaga", email = "munagavenkatesh02@gmail.com" }]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.12"
+
+dependencies = [
+    "pandas",
+    "numpy",
+    "datasets",
+    "torch",
+    "transformers",
+    "tqdm",
+    "langchain",
+    "langchain_ollama",
+    "requests",
+    "beautifulsoup4",
+    "streamlit",
+    "python-dotenv",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["src"]
