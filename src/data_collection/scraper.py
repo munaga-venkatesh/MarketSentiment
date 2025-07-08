@@ -1,7 +1,7 @@
 import random
 import requests
 from bs4 import BeautifulSoup
-from logger import logging
+from src.logger import logging
 
 
 def get_random_users_agents() -> str:
@@ -25,3 +25,26 @@ def get_page_content(url: str) -> str:
     except requests.exceptions.RequestException as e:
         logging.exception("Failed fetching %s", url, exc_info=e)
         return ""
+
+def extract_body(html_content: str) -> str:
+    soup = BeautifulSoup(html_content, "html.parser")
+    body_content = soup.body
+    if body_content:
+        return str(body_content)
+    return ""
+
+def clean_body_content(body_content):
+    soup = BeautifulSoup(body_content, "html.parser")
+    for scrit_or_style in soup(["scrit", "style"]):
+        scrit_or_style.extract()
+    
+    cleaned_content = soup.get_text(separator="\n")
+    cleaned_content = "\n".join(
+        line.strip() for line in cleaned_content.splitlines() if line.strip()
+    )
+    return cleaned_content
+
+def split_dom_content(dom_content, max_length=6000):
+    return [
+        dom_content[i: i + max_length] for i in range(0, len(dom_content), max_length)
+    ]
